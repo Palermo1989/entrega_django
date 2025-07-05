@@ -6,21 +6,21 @@
 
 <h2>Buscar Curso</h2>
 
-<form method="GET" action="{% url 'buscar-cursos' %}">
-    <input type="text" name="nombre" placeholder="Buscar curso..." value="{{ nombre }}">
+<form method="GET" action="{% url 'buscar-paciente' %}">
+    <input type="text" name="nombre" placeholder="Buscar Paciente..." value="{{ nombre }}">
     <button type="submit">Buscar</button>
 </form>
 
-<h2>Cursos: </h2>
+<h2>Paciente: </h2>
 
 <ul>
-    {% for curso in cursos %}
-        <li>{{ curso.nombre }}</li>
+    {% for paciente in paciente %}
+        <li>{{ paciente.nombre }}</li>
     {% empty %}
-        <li>No hay cursos disponibles.</li>
+        <li>No hay Paciente registrado.</li>
     {% endfor %}
 </ul>
 
-<a href="{% url 'crear-curso' %}">Agregar Curso</a>
+<a href="{% url 'crear-paciente' %}">Agregar Paciente</a>
 
 {% endblock %}
