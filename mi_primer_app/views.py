@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import doctor, Paciente, Estudio
-from .forms import Pacienteform, EstudioForm
+from .forms import PacienteForm, EstudioForm
 from django.http import HttpResponse
 
 
@@ -29,21 +29,17 @@ def crear_doctor(request, nombre):
     return render(request, "mi_primer_app/crear_doctor.html", {"nombre": nombre})
 
 
+from django.shortcuts import render, redirect
+from .forms import PacienteForm, EstudioForm
+
 def crear_paciente(request):
     if request.method == 'POST':
-        form = Pacienteform(request.POST)
+        form = PacienteForm(request.POST)
         if form.is_valid():
-            nuevo_paciente = Paciente(
-                nombre=form.cleaned_data['nombre'],
-                apellido=form.cleaned_data['apellido'],
-                direccion=form.cleaned_data['direccion'],
-                edad=form.cleaned_data['edad'],
-                obra_social=form.cleaned_data['obra_social'],
-            )
-            nuevo_paciente.save()
+            form.save()
             return redirect('lista_paciente')
     else:
-        form = Pacienteform()
+        form = PacienteForm()
     return render(request, 'mi_primer_app/crear_paciente.html', {'form': form})
 
 
@@ -51,13 +47,7 @@ def crear_estudio(request):
     if request.method == 'POST':
         form = EstudioForm(request.POST)
         if form.is_valid():
-            nuevo_estudio = Estudio(
-                nombre=form.cleaned_data['nombre'],
-                paciente=form.cleaned_data['paciente'],
-                fecha=form.cleaned_data['fecha'],
-                urgencia=form.cleaned_data['urgencia'],
-            )
-            nuevo_estudio.save()
+            form.save()
             return redirect('inicio')
     else:
         form = EstudioForm()
