@@ -5,7 +5,8 @@ class PacienteForm(forms.ModelForm):
     class Meta:
         model = Paciente
         fields = ['nombre', 'apellido', 'direccion', 'edad', 'obra_social']
-
+        widgets = {
+            'edad': forms.TextInput}
 class EstudioForm(forms.ModelForm):
     class Meta:
         model = Estudio

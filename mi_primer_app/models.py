@@ -29,7 +29,14 @@ class Estudio(models.Model):
     nombre = models.CharField(max_length=100)
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
     fecha = models.DateField()
-    urgencia = models.BooleanField(default=False)
-
+    urgencia = models.CharField(
+    max_length=10,
+    choices=[
+        ('bajo', 'Bajo'),
+        ('medio', 'Medio'),
+        ('alto', 'Alto'),
+    ],
+    default='medio'
+    )   
     def __str__(self):
         return f"{self.nombre} {self.paciente}."
