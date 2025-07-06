@@ -1,9 +1,26 @@
-{% extends "padre.html" %}
+{% extends 'padre.html' %}
 
 {% block title %}Crear Doctor{% endblock %}
 
 {% block content %}
-<h2>Doctor creado con éxito</h2>
-<p>Se ha agregado el doctor: <strong>{{ nombre }}</strong></p>
-<a href="{% url 'inicio' %}">Volver al inicio</a>
+  <h2>Crear Doctor</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <label>Nombre:</label>
+    <input type="text" name="nombre"><br>
+
+    <label>Apellido:</label>
+    <input type="text" name="apellido"><br>
+
+    <label>Edad:</label>
+    <input type="number" name="edad"><br>
+
+    <label>Fecha de Nacimiento:</label>
+    <input type="date" name="fecha_nacimiento"><br>
+
+    <label>Especialidad:</label>
+    <input type="text" name="especialidad"><br>
+
+    <button type="submit">Guardar</button>
+  </form>
 {% endblock %}

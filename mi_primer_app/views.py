@@ -26,7 +26,7 @@ def crear_doctor(request, nombre):
             especialidad="Primo"
         )
         nuevo_doctor.save()
-    return render(request, "mi_primer_app/crear_doctor.html", {"nombre": nombre})
+    return render(request, "mi_primer_app/crear_doctor.html")
 
 
 from django.shortcuts import render, redirect
