@@ -16,18 +16,25 @@ def saludo_con_template(request):
     return render(request, 'mi_primer_app/saludo.html')
 
 
-def crear_doctor(request, nombre):
-    if nombre is not None:
+def crear_doctor(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        apellido = request.POST.get('apellido')
+        edad = request.POST.get('edad')
+        fecha_nacimiento = request.POST.get('fecha_nacimiento')
+        especialidad = request.POST.get('especialidad')
+
         nuevo_doctor = doctor(
             nombre=nombre,
-            apellido="ApellidoEjemplo",
-            edad=30,
-            fecha_nacimiento="1993-01-01",
-            especialidad="Primo"
+            apellido=apellido,
+            edad=edad,
+            fecha_nacimiento=fecha_nacimiento,
+            especialidad=especialidad
         )
         nuevo_doctor.save()
-    return render(request, "mi_primer_app/crear_doctor.html")
+        return redirect('inicio')
 
+    return render(request, 'mi_primer_app/crear_doctor.html')
 
 from django.shortcuts import render, redirect
 from .forms import PacienteForm, EstudioForm
