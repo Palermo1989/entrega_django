@@ -1,9 +1,9 @@
 {% extends "padre.html" %}
 
-{% block title %}Crear Estudio{% endblock %}
+{% block title %}Crear turno{% endblock %}
 
 {% block content %}
-<h2>Agregar Estudio</h2>
+<h2>Agregar Turno</h2>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
