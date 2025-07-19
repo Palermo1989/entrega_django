@@ -1,12 +1,61 @@
-{% extends "padre.html" %}
+{% extends 'padre.html' %}
 
-{% block title %}Crear turno{% endblock %}
+{% block title %}Crear Estudio{% endblock %}
 
 {% block content %}
-<h2>Agregar Turno</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
-</form>
+<div class="container mt-4">
+    <h2 class="mb-4">Nuevo Estudio</h2>
+
+    <form method="post" class="mb-5">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Nombre del Estudio</label>
+                {{ form.nombre }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Paciente</label>
+                {{ form.paciente }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Fecha</label>
+                {{ form.fecha }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Urgencia</label>
+                {{ form.urgencia }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Guardar Estudio</button>
+    </form>
+
+    <hr>
+
+    <h3 class="mb-3">Listado de Estudios</h3>
+
+    {% if estudios %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Paciente</th>
+                    <th>Fecha</th>
+                    <th>Urgencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for estudio in estudios %}
+                    <tr>
+                        <td>{{ estudio.nombre }}</td>
+                        <td>{{ estudio.paciente.nombre }} {{ estudio.paciente.apellido }}</td>
+                        <td>{{ estudio.fecha|date:"d/m/Y" }}</td>
+                        <td>{{ estudio.urgencia|title }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay estudios registrados aún.</p>
+    {% endif %}
+</div>
 {% endblock %}

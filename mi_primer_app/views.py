@@ -32,9 +32,10 @@ def crear_doctor(request):
             especialidad=especialidad
         )
         nuevo_doctor.save()
-        return redirect('inicio')
+        return redirect('crear-doctor')  # Redirige a sí misma para mostrar el nuevo listado
 
-    return render(request, 'mi_primer_app/crear_doctor.html')
+    doctores = doctor.objects.all()
+    return render(request, 'mi_primer_app/crear_doctor.html', {'doctores': doctores})
 
 from django.shortcuts import render, redirect
 from .forms import PacienteForm, EstudioForm
@@ -44,10 +45,13 @@ def crear_paciente(request):
         form = PacienteForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('lista_paciente')
+            form = PacienteForm()  # Reiniciar formulario vacío después de guardar
     else:
         form = PacienteForm()
-    return render(request, 'mi_primer_app/crear_paciente.html', {'form': form})
+
+    pacientes = Paciente.objects.all()
+    return render(request, 'mi_primer_app/crear_paciente.html', {'form': form, 'pacientes': pacientes})
+
 
 
 def crear_estudio(request):
@@ -55,11 +59,12 @@ def crear_estudio(request):
         form = EstudioForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('inicio')
+            return redirect('crear-estudio')
     else:
         form = EstudioForm()
-    return render(request, 'mi_primer_app/crear_estudio.html', {'form': form})
 
+    estudios = Estudio.objects.all().order_by('-fecha')
+    return render(request, 'crear_estudio.html', {'form': form, 'estudios': estudios})
 
 def lista_paciente(request):
     pacientes = Paciente.objects.all()

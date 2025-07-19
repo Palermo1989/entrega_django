@@ -1,9 +1,44 @@
 {% extends "padre.html" %}
 
-{% block title %}Inicio{% endblock %}
+{% block title %}Inicio - Clínica Médica{% endblock %}
 
 {% block content %}
-<h2>Bienvenido a la Clínica Médica</h2>
-<p>Desde aquí podés gestionar pacientes, doctores y estudios.</p>
-{% endblock %}
+<div class="text-center">
+    <h1 class="mb-4">Bienvenidos a Clínica Médica Salud Integral</h1>
+    <p class="lead mb-4">
+        Somos un centro de salud comprometido con la atención médica de calidad, personalizada y con calidez humana.  
+        Nuestro equipo está conformado por profesionales especializados en distintas áreas para brindarte el mejor cuidado.
+    </p>
 
+    <div class="row text-start">
+        <div class="col-md-6">
+            <h4>Nuestros Servicios</h4>
+            <ul>
+                <li>Consultas clínicas generales y especializadas</li>
+                <li>Estudios diagnósticos y laboratorio</li>
+                <li>Atención pediátrica</li>
+                <li>Emergencias médicas 24 hs</li>
+                <li>Medicina preventiva y chequeos integrales</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h4>¿Por qué elegirnos?</h4>
+            <ul>
+                <li>Profesionales altamente capacitados</li>
+                <li>Turnos rápidos y atención eficiente</li>
+                <li>Instalaciones modernas y equipamiento avanzado</li>
+                <li>Atención con o sin obra social</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h5>Dirección</h5>
+        <p>Av. Principal 1234, Ciudad Médica</p>
+        <h5>Teléfono</h5>
+        <p>0800-333-CLINICA (2546422)</p>
+        <h5>Horario</h5>
+        <p>Lunes a Viernes de 8:00 a 18:00 | Emergencias 24 hs</p>
+    </div>
+</div>
+{% endblock %}
