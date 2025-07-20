@@ -34,26 +34,16 @@
     <h3 class="mb-3">Listado de Estudios</h3>
 
     {% if estudios %}
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Paciente</th>
-                    <th>Fecha</th>
-                    <th>Urgencia</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for estudio in estudios %}
-                    <tr>
-                        <td>{{ estudio.nombre }}</td>
-                        <td>{{ estudio.paciente.nombre }} {{ estudio.paciente.apellido }}</td>
-                        <td>{{ estudio.fecha|date:"d/m/Y" }}</td>
-                        <td>{{ estudio.urgencia|title }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <ul class="list-group">
+            {% for estudio in estudios %}
+                <li class="list-group-item">
+                    <strong>{{ estudio.nombre }}</strong><br>
+                    Paciente: {{ estudio.paciente.nombre }} {{ estudio.paciente.apellido }}<br>
+                    Fecha: {{ estudio.fecha|date:"d/m/Y" }}<br>
+                    Urgencia: {{ estudio.urgencia|title }}
+                </li>
+            {% endfor %}
+        </ul>
     {% else %}
         <p>No hay estudios registrados aún.</p>
     {% endif %}
