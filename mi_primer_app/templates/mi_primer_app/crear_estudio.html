@@ -3,26 +3,26 @@
 {% block title %}Crear Estudio{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-5">
     <h2 class="mb-4">Nuevo Estudio</h2>
 
     <form method="post" class="mb-5">
         {% csrf_token %}
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label>Nombre del Estudio</label>
+                <label for="{{ form.nombre.id_for_label }}">Nombre del Estudio</label>
                 {{ form.nombre }}
             </div>
             <div class="col-md-6 mb-3">
-                <label>Paciente</label>
+                <label for="{{ form.paciente.id_for_label }}">Paciente</label>
                 {{ form.paciente }}
             </div>
             <div class="col-md-6 mb-3">
-                <label>Fecha</label>
+                <label for="{{ form.fecha.id_for_label }}">Fecha</label>
                 {{ form.fecha }}
             </div>
             <div class="col-md-6 mb-3">
-                <label>Urgencia</label>
+                <label for="{{ form.urgencia.id_for_label }}">Urgencia</label>
                 {{ form.urgencia }}
             </div>
         </div>
@@ -40,12 +40,12 @@
                     <strong>{{ estudio.nombre }}</strong><br>
                     Paciente: {{ estudio.paciente.nombre }} {{ estudio.paciente.apellido }}<br>
                     Fecha: {{ estudio.fecha|date:"d/m/Y" }}<br>
-                    Urgencia: {{ estudio.urgencia|title }}
+                    Urgencia: {{ estudio.get_urgencia_display }}
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>No hay estudios registrados aún.</p>
+        <p class="text-muted">No hay estudios registrados aún.</p>
     {% endif %}
 </div>
 {% endblock %}

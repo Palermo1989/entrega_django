@@ -59,12 +59,13 @@ def crear_estudio(request):
         form = EstudioForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('crear-estudio')
+            return redirect('crear-estudio')  # O a la URL que quieras
     else:
         form = EstudioForm()
 
-    estudios = Estudio.objects.all().order_by('-fecha')
-    return render(request, 'crear_estudio.html', {'form': form, 'estudios': estudios})
+    estudios = Estudio.objects.all().order_by('-fecha')  # Trae todos los estudios ordenados por fecha
+    return render(request, 'mi_primer_app/crear_estudio.html', {'form': form, 'estudios': estudios})
+
 
 def lista_paciente(request):
     pacientes = Paciente.objects.all()
