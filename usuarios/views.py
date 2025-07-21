@@ -4,8 +4,12 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, redirect
 
-from .forms import registroForm
+from .forms import registroForm, UserForm, ProfileForm
+from .models import Profile
 
 class registroView(CreateView):
     model = User
@@ -37,3 +41,33 @@ class CustomLogoutView(LogoutView):
     def dispatch(self, request, *args, **kwargs):
         messages.info(request, "Has cerrado sesión correctamente.")
         return super().dispatch(request, *args, **kwargs)
+
+class ProfileView(LoginRequiredMixin, View):
+    template_name = 'usuarios/profile.html'
+
+    def get(self, request):
+        user = request.user
+        profile, _ = Profile.objects.get_or_create(user=user)
+        user_form = UserForm(instance=user)
+        profile_form = ProfileForm(instance=profile)
+        return render(request, self.template_name, {
+            'user_form': user_form,
+            'profile_form': profile_form,
+        })
+
+    def post(self, request):
+        user = request.user
+        profile, _ = Profile.objects.get_or_create(user=user)
+        user_form = UserForm(request.POST, instance=user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, "Perfil actualizado correctamente.")
+            return redirect('profile')
+
+        return render(request, self.template_name, {
+            'user_form': user_form,
+            'profile_form': profile_form,
+        })
