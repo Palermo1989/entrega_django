@@ -6,6 +6,12 @@
 <div class="container mt-5">
     <h2>Nuevo Estudio</h2>
 
+    {% if not form.paciente.field.queryset %}
+        <div class="alert alert-danger" role="alert">
+            No hay pacientes registrados. Por favor, registre un paciente antes de cargar un estudio.
+        </div>
+    {% endif %}
+
     <form method="post" class="mb-5">
         {% csrf_token %}
         <div class="row">
@@ -52,7 +58,7 @@
                 <td>{{ estudio.fecha }}</td>
                 <td>{{ estudio.get_urgencia_display }}</td>
                 <td>
-                    <a href="{% url 'editar-estudio' estudio.id %}" class="btn btn-sm btn-warning">Modificar</a>
+                    <a href="{% url 'modificar-estudio' estudio.id %}" class="btn btn-sm btn-warning">Modificar</a>
                     <a href="{% url 'eliminar-estudio' estudio.id %}" class="btn btn-sm btn-danger">Eliminar</a>
                 </td>
             </tr>

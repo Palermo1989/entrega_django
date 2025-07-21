@@ -1,110 +1,98 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.shortcuts import render
 from .models import doctor, Paciente, Estudio
-from .forms import PacienteForm, EstudioForm, DoctorForm
-from django.http import HttpResponse
+from .forms import DoctorForm, PacienteForm, EstudioForm
 
 
+# Inicio y saludos
 def inicio(request):
     return render(request, 'mi_primer_app/inicio.html')
 
-
 def saludo(request):
+    from django.http import HttpResponse
     return HttpResponse("¡Hola, mundo!")
-
 
 def saludo_con_template(request):
     return render(request, 'mi_primer_app/saludo.html')
 
 
-def crear_doctor(request):
-    if request.method == 'POST':
-        form = DoctorForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('crear-doctor')
-    else:
-        form = DoctorForm()
+# ----------------------------
+# DOCTOR
+# ----------------------------
 
-    doctores = doctor.objects.all()
-    return render(request, 'mi_primer_app/crear_doctor.html', {'form': form, 'doctores': doctores})
+class DoctorCreateView(CreateView):
+    model = doctor
+    form_class = DoctorForm
+    template_name = 'mi_primer_app/crear_doctor.html'
+    success_url = reverse_lazy('crear-doctor')
 
-def modificar_doctor(request, pk):
-    doc = get_object_or_404(doctor, pk=pk)
-    if request.method == 'POST':
-        form = DoctorForm(request.POST, instance=doc)
-        if form.is_valid():
-            form.save()
-            return redirect('crear-doctor')
-    else:
-        form = DoctorForm(instance=doc)
-    return render(request, 'mi_primer_app/modificar_doctor.html', {'form': form})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['doctores'] = doctor.objects.all()
+        return context
 
-def eliminar_doctor(request, pk):
-    doc = get_object_or_404(doctor, pk=pk)
-    if request.method == 'POST':
-        doc.delete()
-        return redirect('crear-doctor')
-    return render(request, 'mi_primer_app/eliminar_doctor.html', {'doctor': doc})
+class DoctorUpdateView(UpdateView):
+    model = doctor
+    form_class = DoctorForm
+    template_name = 'mi_primer_app/modificar_doctor.html'
+    success_url = reverse_lazy('crear-doctor')
 
-def crear_paciente(request):
-    if request.method == 'POST':
-        form = PacienteForm(request.POST)
-        if form.is_valid():
-            form.save()
-            form = PacienteForm()  # formulario limpio
-    else:
-        form = PacienteForm()
+class DoctorDeleteView(DeleteView):
+    model = doctor
+    template_name = 'mi_primer_app/eliminar_doctor.html'
+    success_url = reverse_lazy('crear-doctor')
 
-    pacientes = Paciente.objects.all()
-    return render(request, 'mi_primer_app/crear_paciente.html', {'form': form, 'pacientes': pacientes})
 
-def modificar_paciente(request, pk):
-    paciente = get_object_or_404(Paciente, id=pk)
-    if request.method == 'POST':
-        form = PacienteForm(request.POST, instance=paciente)
-        if form.is_valid():
-            form.save()
-            return redirect('crear-paciente')
-    else:
-        form = PacienteForm(instance=paciente)
-    return render(request, 'mi_primer_app/modificar_paciente.html', {'form': form})
+# ----------------------------
+# PACIENTE
+# ----------------------------
 
-def eliminar_paciente(request, pk):
-    paciente = get_object_or_404(Paciente, id=pk)
-    if request.method == 'POST':
-        paciente.delete()
-        return redirect('crear-paciente')
-    return render(request, 'mi_primer_app/eliminar_paciente.html', {'paciente': paciente})
+class PacienteCreateView(CreateView):
+    model = Paciente
+    form_class = PacienteForm
+    template_name = 'mi_primer_app/crear_paciente.html'
+    success_url = reverse_lazy('crear-paciente')
 
-def crear_estudio(request):
-    if request.method == 'POST':
-        form = EstudioForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('crear-estudio')  # Redirigir para evitar repost
-    else:
-        form = EstudioForm()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['pacientes'] = Paciente.objects.all()
+        return context
 
-    estudios = Estudio.objects.all().order_by('-fecha')
-    return render(request, 'mi_primer_app/crear_estudio.html', {'form': form, 'estudios': estudios})
+class PacienteUpdateView(UpdateView):
+    model = Paciente
+    form_class = PacienteForm
+    template_name = 'mi_primer_app/modificar_paciente.html'
+    success_url = reverse_lazy('crear-paciente')
 
-    # Vista para editar un estudio
-def editar_estudio(request, pk):
-    estudio = get_object_or_404(Estudio, pk=pk)
-    if request.method == 'POST':
-        form = EstudioForm(request.POST, instance=estudio)
-        if form.is_valid():
-            form.save()
-            return redirect('crear-estudio')
-    else:
-        form = EstudioForm(instance=estudio)
-    return render(request, 'mi_primer_app/modificar_estudio.html', {'form': form})
+class PacienteDeleteView(DeleteView):
+    model = Paciente
+    template_name = 'mi_primer_app/eliminar_paciente.html'
+    success_url = reverse_lazy('crear-paciente')
 
-# eliminar_estudio
-def eliminar_estudio(request, pk):
-    estudio = get_object_or_404(Estudio, pk=pk)
-    if request.method == 'POST':
-        estudio.delete()
-        return redirect('crear-estudio')
-    return render(request, 'mi_primer_app/eliminar_estudio.html', {'estudio': estudio})
 
+# ----------------------------
+# ESTUDIO
+# ----------------------------
+
+class EstudioCreateView(CreateView):
+    model = Estudio
+    form_class = EstudioForm
+    template_name = 'mi_primer_app/crear_estudio.html'
+    success_url = reverse_lazy('crear-estudio')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['estudios'] = Estudio.objects.all().order_by('-fecha')
+        return context
+
+class EstudioUpdateView(UpdateView):
+    model = Estudio
+    form_class = EstudioForm
+    template_name = 'mi_primer_app/modificar_estudio.html'
+    success_url = reverse_lazy('crear-estudio')
+
+class EstudioDeleteView(DeleteView):
+    model = Estudio
+    template_name = 'mi_primer_app/eliminar_estudio.html'
+    success_url = reverse_lazy('crear-estudio')
