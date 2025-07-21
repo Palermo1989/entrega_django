@@ -14,19 +14,19 @@ class PacienteForm(forms.ModelForm):
         }
 
 URGENCIA_CHOICES = [
-    ('baja', 'Baja'),
-    ('media', 'Media'),
+    ('bajo', 'Bajo'),
+    ('medio', 'Medio'),
     ('alta', 'Alta'),
 ]
 
-class EstudioForm(forms.ModelForm):
-    urgencia = forms.ChoiceField(choices=URGENCIA_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
 
+class EstudioForm(forms.ModelForm):
     class Meta:
         model = Estudio
         fields = ['nombre', 'paciente', 'fecha', 'urgencia']
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
-            'paciente': forms.Select(attrs={'class': 'form-control'}),
+            'paciente': forms.Select(attrs={'class': 'form-select'}),
             'fecha': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'urgencia': forms.Select(attrs={'class': 'form-select'}),
         }

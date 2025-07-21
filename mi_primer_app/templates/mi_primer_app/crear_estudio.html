@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="mb-4">Nuevo Estudio</h2>
+    <h2>Nuevo Estudio</h2>
 
     <form method="post" class="mb-5">
         {% csrf_token %}
@@ -17,35 +17,50 @@
                 <label for="{{ form.paciente.id_for_label }}">Paciente</label>
                 {{ form.paciente }}
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
                 <label for="{{ form.fecha.id_for_label }}">Fecha</label>
                 {{ form.fecha }}
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
                 <label for="{{ form.urgencia.id_for_label }}">Urgencia</label>
                 {{ form.urgencia }}
             </div>
         </div>
-        <button type="submit" class="btn btn-success">Guardar Estudio</button>
+
+        <button type="submit" class="btn btn-primary">Guardar Estudio</button>
     </form>
 
     <hr>
 
-    <h3 class="mb-3">Listado de Estudios</h3>
-
+    <h3>Listado de Estudios</h3>
     {% if estudios %}
-        <ul class="list-group">
+    <table class="table table-bordered table-striped">
+        <thead class="table-light">
+            <tr>
+                <th>Nombre</th>
+                <th>Paciente</th>
+                <th>Fecha</th>
+                <th>Urgencia</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
             {% for estudio in estudios %}
-                <li class="list-group-item">
-                    <strong>{{ estudio.nombre }}</strong><br>
-                    Paciente: {{ estudio.paciente.nombre }} {{ estudio.paciente.apellido }}<br>
-                    Fecha: {{ estudio.fecha|date:"d/m/Y" }}<br>
-                    Urgencia: {{ estudio.get_urgencia_display }}
-                </li>
+            <tr>
+                <td>{{ estudio.nombre }}</td>
+                <td>{{ estudio.paciente.nombre }} {{ estudio.paciente.apellido }}</td>
+                <td>{{ estudio.fecha }}</td>
+                <td>{{ estudio.get_urgencia_display }}</td>
+                <td>
+                    <a href="{% url 'editar-estudio' estudio.id %}" class="btn btn-sm btn-warning">Modificar</a>
+                    <a href="{% url 'eliminar-estudio' estudio.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
             {% endfor %}
-        </ul>
+        </tbody>
+    </table>
     {% else %}
-        <p class="text-muted">No hay estudios registrados aún.</p>
+    <p>No hay estudios registrados aún.</p>
     {% endif %}
 </div>
 {% endblock %}

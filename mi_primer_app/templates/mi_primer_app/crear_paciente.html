@@ -3,35 +3,34 @@
 {% block title %}Crear Paciente{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-5">
     <h2 class="mb-4">Nuevo Paciente</h2>
 
-    <form method="post" novalidate>
+    <form method="post" class="mb-5">
         {% csrf_token %}
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label for="{{ form.nombre.id_for_label }}" class="form-label">Nombre</label>
+                <label for="{{ form.nombre.id_for_label }}">Nombre</label>
                 {{ form.nombre }}
             </div>
             <div class="col-md-6 mb-3">
-                <label for="{{ form.apellido.id_for_label }}" class="form-label">Apellido</label>
+                <label for="{{ form.apellido.id_for_label }}">Apellido</label>
                 {{ form.apellido }}
             </div>
             <div class="col-md-6 mb-3">
-                <label for="{{ form.direccion.id_for_label }}" class="form-label">Dirección</label>
+                <label for="{{ form.direccion.id_for_label }}">Dirección</label>
                 {{ form.direccion }}
             </div>
             <div class="col-md-3 mb-3">
-                <label for="{{ form.edad.id_for_label }}" class="form-label">Edad</label>
+                <label for="{{ form.edad.id_for_label }}">Edad</label>
                 {{ form.edad }}
             </div>
-            <div class="col-md-3 mb-3">
-                <label for="{{ form.obra_social.id_for_label }}" class="form-label">Obra Social</label>
+            <div class="col-md-6 mb-3">
+                <label for="{{ form.obra_social.id_for_label }}">Obra Social</label>
                 {{ form.obra_social }}
             </div>
         </div>
-
-        <button type="submit" class="btn btn-success">Guardar Paciente</button>
+        <button type="submit" class="btn btn-primary">Guardar Paciente</button>
     </form>
 
     <hr>
@@ -39,15 +38,35 @@
     <h3 class="mb-3">Listado de Pacientes</h3>
 
     {% if pacientes %}
-        <ul class="list-group">
-        {% for paciente in pacientes %}
-            <li class="list-group-item">
-                <strong>{{ paciente.nombre }} {{ paciente.apellido }}</strong> - Edad: {{ paciente.edad }} - Obra Social: {{ paciente.obra_social }}
-            </li>
-        {% endfor %}
-        </ul>
+    <table class="table table-bordered table-striped">
+        <thead class="table-light">
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Dirección</th>
+                <th>Edad</th>
+                <th>Obra Social</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for paciente in pacientes %}
+            <tr>
+                <td>{{ paciente.nombre }}</td>
+                <td>{{ paciente.apellido }}</td>
+                <td>{{ paciente.direccion }}</td>
+                <td>{{ paciente.edad }}</td>
+                <td>{{ paciente.obra_social }}</td>
+                <td>
+                    <a href="{% url 'modificar-paciente' paciente.id %}" class="btn btn-sm btn-warning">Modificar</a>
+                    <a href="{% url 'eliminar-paciente' paciente.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% else %}
-        <p>No hay pacientes registrados aún.</p>
+        <p class="text-muted">No hay pacientes registrados aún.</p>
     {% endif %}
 </div>
 {% endblock %}

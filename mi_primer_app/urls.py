@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import (
     saludo, saludo_con_template, crear_doctor, inicio,
-    crear_paciente, crear_estudio, buscar_paciente, lista_paciente
+    crear_paciente, crear_estudio, editar_estudio,eliminar_estudio,modificar_paciente,eliminar_paciente
 )
 
 urlpatterns = [
@@ -12,6 +12,9 @@ urlpatterns = [
     path('crear-doctor/', crear_doctor, name='crear-doctor'),
     path('crear-paciente/', crear_paciente, name='crear-paciente'),
     path('crear-estudio/', crear_estudio, name='crear-estudio'),
-    path('pacientes/', lista_paciente, name='lista_paciente'),
-    path('paciente/buscar/', buscar_paciente, name='buscar-paciente'),
+    path('editar-estudio/<int:pk>/', editar_estudio, name='editar-estudio'),
+    path('eliminar-estudio/<int:pk>/', eliminar_estudio, name='eliminar-estudio'),
+    path('paciente/eliminar/<int:pk>/', eliminar_paciente, name='eliminar-paciente'),
+    path('paciente/modificar/<int:pk>/', modificar_paciente, name='modificar-paciente'),
+
 ]

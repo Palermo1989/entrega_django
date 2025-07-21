@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import doctor, Paciente, Estudio
 from .forms import PacienteForm, EstudioForm
 from django.http import HttpResponse
@@ -45,35 +45,60 @@ def crear_paciente(request):
         form = PacienteForm(request.POST)
         if form.is_valid():
             form.save()
-            form = PacienteForm()  # Reiniciar formulario vacío después de guardar
+            form = PacienteForm()  # formulario limpio
     else:
         form = PacienteForm()
 
     pacientes = Paciente.objects.all()
     return render(request, 'mi_primer_app/crear_paciente.html', {'form': form, 'pacientes': pacientes})
 
+def modificar_paciente(request, pk):
+    paciente = get_object_or_404(Paciente, id=pk)
+    if request.method == 'POST':
+        form = PacienteForm(request.POST, instance=paciente)
+        if form.is_valid():
+            form.save()
+            return redirect('crear-paciente')
+    else:
+        form = PacienteForm(instance=paciente)
+    return render(request, 'mi_primer_app/modificar_paciente.html', {'form': form})
 
+def eliminar_paciente(request, pk):
+    paciente = get_object_or_404(Paciente, id=pk)
+    if request.method == 'POST':
+        paciente.delete()
+        return redirect('crear-paciente')
+    return render(request, 'mi_primer_app/eliminar_paciente.html', {'paciente': paciente})
 
 def crear_estudio(request):
     if request.method == 'POST':
         form = EstudioForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('crear-estudio')  # O a la URL que quieras
+            return redirect('crear-estudio')  # Redirigir para evitar repost
     else:
         form = EstudioForm()
 
-    estudios = Estudio.objects.all().order_by('-fecha')  # Trae todos los estudios ordenados por fecha
+    estudios = Estudio.objects.all().order_by('-fecha')
     return render(request, 'mi_primer_app/crear_estudio.html', {'form': form, 'estudios': estudios})
 
+    # Vista para editar un estudio
+def editar_estudio(request, pk):
+    estudio = get_object_or_404(Estudio, pk=pk)
+    if request.method == 'POST':
+        form = EstudioForm(request.POST, instance=estudio)
+        if form.is_valid():
+            form.save()
+            return redirect('crear-estudio')
+    else:
+        form = EstudioForm(instance=estudio)
+    return render(request, 'mi_primer_app/modificar_estudio.html', {'form': form})
 
-def lista_paciente(request):
-    pacientes = Paciente.objects.all()
-    return render(request, 'mi_primer_app/paciente.html', {'pacientes': pacientes})
+# eliminar_estudio
+def eliminar_estudio(request, pk):
+    estudio = get_object_or_404(Estudio, pk=pk)
+    if request.method == 'POST':
+        estudio.delete()
+        return redirect('crear-estudio')
+    return render(request, 'mi_primer_app/eliminar_estudio.html', {'estudio': estudio})
 
-
-def buscar_paciente(request):
-    if request.method == 'GET':
-        nombre = request.GET.get('nombre', '')
-        pacientes = Paciente.objects.filter(nombre__icontains=nombre)
-        return render(request, 'mi_primer_app/paciente.html', {'pacientes': pacientes, 'nombre': nombre})

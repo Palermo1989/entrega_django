@@ -1,0 +1,16 @@
+{% extends 'padre.html' %}
+
+{% block title %}Eliminar Estudio{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Eliminar Estudio</h2>
+    <p>¿Estás seguro que deseas eliminar el estudio <strong>{{ estudio.nombre }}</strong> del paciente <strong>{{ estudio.paciente.nombre }} {{ estudio.paciente.apellido }}</strong>?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirmar eliminación</button>
+        <a href="{% url 'crear-estudio' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
