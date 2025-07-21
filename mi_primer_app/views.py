@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import doctor, Paciente, Estudio
-from .forms import PacienteForm, EstudioForm
+from .forms import PacienteForm, EstudioForm, DoctorForm
 from django.http import HttpResponse
 
 
@@ -18,27 +18,33 @@ def saludo_con_template(request):
 
 def crear_doctor(request):
     if request.method == 'POST':
-        nombre = request.POST.get('nombre')
-        apellido = request.POST.get('apellido')
-        edad = request.POST.get('edad')
-        fecha_nacimiento = request.POST.get('fecha_nacimiento')
-        especialidad = request.POST.get('especialidad')
-
-        nuevo_doctor = doctor(
-            nombre=nombre,
-            apellido=apellido,
-            edad=edad,
-            fecha_nacimiento=fecha_nacimiento,
-            especialidad=especialidad
-        )
-        nuevo_doctor.save()
-        return redirect('crear-doctor')  # Redirige a sí misma para mostrar el nuevo listado
+        form = DoctorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('crear-doctor')
+    else:
+        form = DoctorForm()
 
     doctores = doctor.objects.all()
-    return render(request, 'mi_primer_app/crear_doctor.html', {'doctores': doctores})
+    return render(request, 'mi_primer_app/crear_doctor.html', {'form': form, 'doctores': doctores})
 
-from django.shortcuts import render, redirect
-from .forms import PacienteForm, EstudioForm
+def modificar_doctor(request, pk):
+    doc = get_object_or_404(doctor, pk=pk)
+    if request.method == 'POST':
+        form = DoctorForm(request.POST, instance=doc)
+        if form.is_valid():
+            form.save()
+            return redirect('crear-doctor')
+    else:
+        form = DoctorForm(instance=doc)
+    return render(request, 'mi_primer_app/modificar_doctor.html', {'form': form})
+
+def eliminar_doctor(request, pk):
+    doc = get_object_or_404(doctor, pk=pk)
+    if request.method == 'POST':
+        doc.delete()
+        return redirect('crear-doctor')
+    return render(request, 'mi_primer_app/eliminar_doctor.html', {'doctor': doc})
 
 def crear_paciente(request):
     if request.method == 'POST':

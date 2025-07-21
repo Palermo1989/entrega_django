@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import (
-    saludo, saludo_con_template, crear_doctor, inicio,
+    saludo, saludo_con_template, crear_doctor,modificar_doctor,eliminar_doctor, inicio,
     crear_paciente, crear_estudio, editar_estudio,eliminar_estudio,modificar_paciente,eliminar_paciente
 )
 
@@ -16,5 +16,7 @@ urlpatterns = [
     path('eliminar-estudio/<int:pk>/', eliminar_estudio, name='eliminar-estudio'),
     path('paciente/eliminar/<int:pk>/', eliminar_paciente, name='eliminar-paciente'),
     path('paciente/modificar/<int:pk>/', modificar_paciente, name='modificar-paciente'),
+    path('modificar-doctor/<int:pk>/', modificar_doctor, name='modificar-doctor'),
+    path('eliminar-doctor/<int:pk>/', eliminar_doctor, name='eliminar-doctor'),
 
 ]

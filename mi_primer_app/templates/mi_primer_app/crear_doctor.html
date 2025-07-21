@@ -1,61 +1,47 @@
 {% extends 'padre.html' %}
 
-{% block title %}Agregar Doctor{% endblock %}
+{% block title %}Crear Doctor{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <div class="card shadow">
-        <div class="card-body">
-            <h2 class="card-title mb-4">Agregar Nuevo Doctor</h2>
+    <h2>Nuevo Doctor</h2>
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Agregar Doctor</button>
+    </form>
 
-            <form method="post" class="row g-3">
-                {% csrf_token %}
-                <div class="col-md-6">
-                    <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" name="nombre" class="form-control" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="apellido" class="form-label">Apellido</label>
-                    <input type="text" name="apellido" class="form-control" required>
-                </div>
-                <div class="col-md-4">
-                    <label for="edad" class="form-label">Edad</label>
-                    <input type="number" name="edad" class="form-control" required>
-                </div>
-                <div class="col-md-4">
-                    <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
-                    <input type="date" name="fecha_nacimiento" class="form-control" required>
-                </div>
-                <div class="col-md-4">
-                    <label for="especialidad" class="form-label">Especialidad</label>
-                    <input type="text" name="especialidad" class="form-control" required>
-                </div>
-                <div class="col-12 mt-3">
-                    <button type="submit" class="btn btn-success">Guardar Doctor</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <hr class="my-5">
-
-    <div class="card shadow">
-        <div class="card-body">
-            <h3 class="card-title mb-3">Listado de Doctores</h3>
-
-            {% if doctores %}
-                <ul class="list-group">
-                    {% for d in doctores %}
-                        <li class="list-group-item">
-                            <strong>Dr/a. {{ d.nombre }} {{ d.apellido }}</strong><br>
-                            <span class="text-muted">Especialidad: {{ d.especialidad }}</span>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-muted">No hay doctores registrados aún.</p>
-            {% endif %}
-        </div>
-    </div>
+    <h3>Listado de Doctores</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Edad</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Especialidad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doc in doctores %}
+            <tr>
+                <td>{{ doc.nombre }}</td>
+                <td>{{ doc.apellido }}</td>
+                <td>{{ doc.edad }}</td>
+                <td>{{ doc.fecha_nacimiento }}</td>
+                <td>{{ doc.especialidad }}</td>
+                <td>
+                    <a href="{% url 'modificar-doctor' doc.id %}" class="btn btn-sm btn-warning">Modificar</a>
+                    <a href="{% url 'eliminar-doctor' doc.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No hay doctores cargados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
