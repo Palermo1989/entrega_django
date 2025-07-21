@@ -3,6 +3,8 @@ from django.urls import reverse_lazy
 from django.shortcuts import render
 from .models import doctor, Paciente, Estudio
 from .forms import DoctorForm, PacienteForm, EstudioForm
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 
 # Inicio y saludos
@@ -96,3 +98,8 @@ class EstudioDeleteView(DeleteView):
     model = Estudio
     template_name = 'mi_primer_app/eliminar_estudio.html'
     success_url = reverse_lazy('crear-estudio')
+
+    
+def custom_logout(request):
+    logout(request)
+    return redirect('inicio')
