@@ -9,6 +9,6 @@ urlpatterns = [
     path('usuarios/', include('usuarios.urls')),  # URLs app usuarios (login, registro, logout)
 ]
 
-# Configuración para servir archivos estáticos (en desarrollo)
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

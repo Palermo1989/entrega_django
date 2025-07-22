@@ -59,7 +59,7 @@ class ProfileView(LoginRequiredMixin, View):
         user = request.user
         profile, _ = Profile.objects.get_or_create(user=user)
         user_form = UserForm(request.POST, instance=user)
-        profile_form = ProfileForm(request.POST, request.FILES, instance=profile)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=profile)  # <-- MUY IMPORTANTE request.FILES para avatar
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()

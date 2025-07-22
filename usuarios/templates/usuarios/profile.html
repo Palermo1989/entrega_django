@@ -1,46 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5" style="max-width: 500px;">
-  <h2 class="mb-4">Editar perfil</h2>
+<div class="container mt-4">
+  <h2>Perfil de {{ user.username }}</h2>
 
-  <form method="post" enctype="multipart/form-data" novalidate>
+  <!-- Mostrar avatar si existe -->
+  {% if profile_form.instance.avatar %}
+    <img src="{{ profile_form.instance.avatar.url }}" alt="Avatar" class="img-thumbnail mb-3" style="max-width: 150px;">
+  {% else %}
+    <p>No tienes avatar aún.</p>
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-
-    <div class="mb-3">
-      <label class="form-label">Nombre</label>
-      {{ user_form.first_name|add_class:"form-control" }}
-      {{ user_form.first_name.errors }}
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Apellido</label>
-      {{ user_form.last_name|add_class:"form-control" }}
-      {{ user_form.last_name.errors }}
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Email</label>
-      {{ user_form.email|add_class:"form-control" }}
-      {{ user_form.email.errors }}
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Avatar actual</label><br>
-      {% if profile_form.instance.avatar %}
-        <img src="{{ profile_form.instance.avatar.url }}" alt="avatar" class="rounded-circle" style="width:120px; height:120px;">
-      {% else %}
-        <p>No tienes avatar aún.</p>
-      {% endif %}
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Subir nuevo avatar</label>
-      {{ profile_form.avatar|add_class:"form-control" }}
-      {{ profile_form.avatar.errors }}
-    </div>
-
-    <button type="submit" class="btn btn-success w-100">Guardar cambios</button>
+    {{ user_form.as_p }}
+    {{ profile_form.as_p }}
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
   </form>
 </div>
 {% endblock %}
