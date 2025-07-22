@@ -1,14 +1,13 @@
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 # Base directory del proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Seguridad
 SECRET_KEY = 'django-insecure-eu)jx%a(9^jx263#dwe-fv)eq8m2a1a%$0b^%+2ey-d-$jq5u#'
 DEBUG = True
 ALLOWED_HOSTS = []
-
 
 # Aplicaciones instaladas
 INSTALLED_APPS = [
@@ -20,9 +19,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mi_primer_app',
     'usuarios',
-    'widget_tweaks',  # Si lo usás para mejorar los formularios
+    'widget_tweaks',  
 ]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -34,9 +32,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 ROOT_URLCONF = 'ejemplo_django.urls'
-
 
 TEMPLATES = [
     {
@@ -54,9 +50,7 @@ TEMPLATES = [
     },
 ]
 
-
 WSGI_APPLICATION = 'ejemplo_django.wsgi.application'
-
 
 # Base de datos (SQLite por defecto)
 DATABASES = {
@@ -66,7 +60,6 @@ DATABASES = {
     }
 }
 
-
 # Validación de contraseñas
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
@@ -75,28 +68,37 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
 ]
 
-
 # Configuraciones de internacionalización
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-
 # Archivos estáticos (CSS, JS, etc.)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']  # Carpeta para archivos estáticos personalizados
-
 
 # Archivos multimedia (imagenes, avatares, etc)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-
 # Redirects después de login/logout
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+# URL a la página de login (para @login_required y LoginRequiredMixin)
+LOGIN_URL = '/login/'
+
+# Configuración para mensajes con Bootstrap
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-secondary',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 
 # Tipo de campo predeterminado para claves primarias
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

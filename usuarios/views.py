@@ -46,6 +46,8 @@ class ProfileView(LoginRequiredMixin, View):
     template_name = 'usuarios/profile.html'
 
     def get(self, request):
+        storage = messages.get_messages(request)
+        list(storage)  
         user = request.user
         profile, _ = Profile.objects.get_or_create(user=user)
         user_form = UserForm(instance=user)
