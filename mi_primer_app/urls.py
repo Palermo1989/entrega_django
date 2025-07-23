@@ -1,15 +1,18 @@
 from django.urls import path
+from .import views
 from .views import (
     inicio, saludo, saludo_con_template, custom_logout,
     DoctorCreateView, DoctorUpdateView, DoctorDeleteView,
     PacienteCreateView, PacienteUpdateView, PacienteDeleteView,
-    EstudioCreateView, EstudioUpdateView, EstudioDeleteView
+    EstudioCreateView, EstudioUpdateView, EstudioDeleteView,
 )
 
 urlpatterns = [
     path('', inicio, name='inicio'),
     path('hola-mundo/', saludo),
     path('hola-mundo-template/', saludo_con_template),
+    path('about/', views.about, name='about'),
+    path('doctores/', views.lista_doctores, name='lista_doctores'),
 
     # Logout personalizado
     path('logout/', custom_logout, name='logout'),

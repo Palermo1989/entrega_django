@@ -49,10 +49,13 @@
           <li class="nav-item"><a class="nav-link" href="{% url 'crear-paciente' %}">Paciente</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'crear-doctor' %}">Doctor</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'crear-estudio' %}">Estudio</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
 
         {% else %}
+        <li class="nav-item"><a class="nav-link" href="{% url 'lista_doctores' %}">Doctores</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'registro' %}">Registrar</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
         {% endif %}
       </ul>
     </div>

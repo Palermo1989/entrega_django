@@ -103,3 +103,10 @@ class EstudioDeleteView(DeleteView):
 def custom_logout(request):
     logout(request)
     return redirect('inicio')
+
+def about(request):
+    return render(request, 'about.html')
+
+def lista_doctores(request):
+    doctores = doctor.objects.all()
+    return render(request, 'lista_doctores.html', {'doctores': doctores})

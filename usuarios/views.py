@@ -8,6 +8,7 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 
+
 from .forms import registroForm, UserForm, ProfileForm
 from .models import Profile
 
@@ -39,7 +40,7 @@ class CustomLogoutView(LogoutView):
     next_page = reverse_lazy('inicio')
 
     def dispatch(self, request, *args, **kwargs):
-        messages.info(request, "Has cerrado sesión correctamente.")
+        #messages.info(request, "Has cerrado sesión correctamente.")
         return super().dispatch(request, *args, **kwargs)
 
 class ProfileView(LoginRequiredMixin, View):

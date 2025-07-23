@@ -1,0 +1,23 @@
+{% extends 'padre.html' %}
+
+{% block title %}Doctores/Especialidad{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Doctores y Especialidades</h2>
+    <div class="row">
+        {% for doctor in doctores %}
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ doctor.nombre }}</h5>
+                    <p class="card-text"><strong>Especialidad:</strong> {{ doctor.especialidad }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No hay doctores registrados.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
