@@ -6,11 +6,13 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-
+from django.utils.translation import gettext_lazy as _
 
 from .forms import registroForm, UserForm, ProfileForm
 from .models import Profile
+
 
 class registroView(CreateView):
     model = User
@@ -29,6 +31,7 @@ class registroView(CreateView):
             messages.success(self.request, f'Bienvenido {user.username}, tu cuenta fue creada correctamente.')
         return response
 
+
 class CustomLoginView(LoginView):
     template_name = 'usuarios/login.html'
 
@@ -36,19 +39,25 @@ class CustomLoginView(LoginView):
         messages.success(self.request, f'Hola {form.get_user().username}, has iniciado sesión correctamente.')
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        messages.error(self.request, _('Usuario o contraseña incorrectos.'))
+        return super().form_invalid(form)
+
+
 class CustomLogoutView(LogoutView):
     next_page = reverse_lazy('inicio')
 
     def dispatch(self, request, *args, **kwargs):
-        #messages.info(request, "Has cerrado sesión correctamente.")
+        # messages.info(request, "Has cerrado sesión correctamente.")
         return super().dispatch(request, *args, **kwargs)
+
 
 class ProfileView(LoginRequiredMixin, View):
     template_name = 'usuarios/profile.html'
 
     def get(self, request):
         storage = messages.get_messages(request)
-        list(storage)  
+        list(storage)
         user = request.user
         profile, _ = Profile.objects.get_or_create(user=user)
         user_form = UserForm(instance=user)
@@ -62,7 +71,7 @@ class ProfileView(LoginRequiredMixin, View):
         user = request.user
         profile, _ = Profile.objects.get_or_create(user=user)
         user_form = UserForm(request.POST, instance=user)
-        profile_form = ProfileForm(request.POST, request.FILES, instance=profile)  # <-- MUY IMPORTANTE request.FILES para avatar
+        profile_form = ProfileForm(request.POST, request.FILES, instance=profile)
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
@@ -74,3 +83,12 @@ class ProfileView(LoginRequiredMixin, View):
             'user_form': user_form,
             'profile_form': profile_form,
         })
+
+
+@login_required
+def datos_usuario_view(request):
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+    return render(request, 'usuarios/datos_usuario.html', {
+        'usuario': request.user,
+        'profile': profile,
+    })

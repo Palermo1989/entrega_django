@@ -4,19 +4,34 @@
 
 {% block content %}
 <div class="container mt-5">
-  <h2>Sobre este proyecto</h2>
-  <p>Este sitio web permite gestionar una clínica médica privada.
-Podés registrar doctores, pacientes y estudios, ver sus datos, modificarlos y eliminarlos.
-También permite registrarse como usuario, subir un avatar y acceder a funciones exclusivas.
-La lista de doctores está disponible para todos, incluso sin iniciar sesión.</p>
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg mb-4">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Sobre este proyecto</h2>
+          <p class="card-text">
+            Este sitio web permite gestionar una <strong>clínica médica privada</strong>.<br>
+            Podés registrar doctores, pacientes y estudios, ver sus datos, modificarlos y eliminarlos.<br>
+            También permite <strong>registrarse como usuario</strong>, subir un avatar y acceder a funciones exclusivas.<br>
+            <span class="text-success fw-bold">La lista de doctores está disponible para todos, incluso sin iniciar sesión.</span>
+          </p>
+        </div>
+      </div>
 
-  <hr>
-
-  <h3>Sobre mí</h3>
-  <p>Me llamo Diego Andrés Palermo Girardi, tengo 36 años y vivo en Santa Rosa del Conlara, San Luis.
-Mi familia está formada por mi pareja y mi hija de 4 años.
-Trabajo en el banco y además soy analista de sistemas recibido.
-</p>
-  </p>
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="card-title mb-3">Sobre mí</h3>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Nombre:</strong> Diego Andrés Palermo Girardi</li>
+            <li class="list-group-item"><strong>Fecha de nacimiento:</strong> 1 de octubre de 1989</li>
+            <li class="list-group-item"><strong>Edad:</strong> 36 años</li>
+            <li class="list-group-item"><strong>Ubicación:</strong> Santa Rosa del Conlara, San Luis</li>
+            <li class="list-group-item"><strong>Familia:</strong> Vivo con mi pareja Celeste y mi hija Victoria de 4 años</li>
+            <li class="list-group-item"><strong>Profesión:</strong> Trabajo en el banco y soy Analista de Sistemas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

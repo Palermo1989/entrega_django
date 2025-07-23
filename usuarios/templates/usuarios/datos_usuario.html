@@ -1,0 +1,27 @@
+{% extends 'padre.html' %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+  <div class="card shadow rounded-4 p-4">
+    <h2 class="mb-4">Datos del Usuario</h2>
+
+    <ul class="list-group mb-3">
+      <li class="list-group-item"><strong>Usuario:</strong> {{ usuario.username }}</li>
+      <li class="list-group-item"><strong>Email:</strong> {{ usuario.email }}</li>
+      <li class="list-group-item"><strong>Nombre:</strong> {{ usuario.first_name }}</li>
+      <li class="list-group-item"><strong>Apellido:</strong> {{ usuario.last_name }}</li>
+    </ul>
+
+    <div>
+      <strong>Avatar:</strong><br>
+      {% if profile.avatar %}
+        <img src="{{ profile.avatar.url }}" alt="Avatar" class="img-thumbnail" style="max-width: 180px;">
+      {% else %}
+        <p>No tienes avatar cargado.</p>
+      {% endif %}
+    </div>
+
+    <a href="{% url 'profile' %}" class="btn btn-primary mt-4">Editar Perfil</a>
+  </div>
+</div>
+{% endblock %}
